@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="w-full bg-white">
+        <div class="border-b border-slate-200 px-6 py-4">
+            <h2 class="text-xl font-semibold text-slate-800">Recently Added</h2>
+        </div>
+
+        <div class="p-5 gap-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 border-b border-slate-200">
+            {% for book in books %}
+                <div class="group bg-white border border-slate-200 hover:bg-slate-50 transition-colors">
+                    <div class="aspect-[2/3] overflow-hidden bg-slate-100">
+                        <img src="{{book.image.url}}" alt="{{book.title}}" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <div class="p-4">
+                        <h2 class="capitalize font-medium text-slate-900 truncate" title="{{book.title}}">
+                            {{book.title}}
+                        </h2>
+                        <p class="text-xs text-slate-500 truncate">{{book.author}}</p>
+                        
+                        <div class="flex items-center justify-between mt-3">
+                            <div class="flex gap-2">
+                                <p class="text-lg font-bold text-purple-700">₹<del>{{book.discount_price}}</del></p>
+                                <p class="text-lg font-bold text-purple-700">₹{{book.price}}</p>
+                            </div>
+                            <button class="text-md bg-slate-100 px-3 py-1 rounded hover:bg-purple-100 hover:text-purple-700 transition">
+                                View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
