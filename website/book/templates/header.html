@@ -6,13 +6,16 @@
     </form>
 
     <div class="flex h-full border-l border-slate-200">
-        <a href="#" class="px-6 py-5 hover:bg-slate-50 transition">Home</a>
+        <a href="{% url 'home' %}" class="px-6 py-5 hover:bg-slate-50 transition">Home</a>
         <a href="#" class="px-6 py-5 hover:bg-slate-50 transition border-l border-slate-200">Login</a>
         <a href="#" class="flex items-center px-8 bg-purple-700 text-white font-semibold hover:bg-purple-800 transition">Cart</a>
     </div>
 </div>
 
 <div class="flex bg-slate-100 border-b overflow-x-auto whitespace-nowrap scrollbar-hide">
+    <a href="{% url 'home' %}" class="text-slate-700 py-2.5 px-5 text-sm font-medium hover:bg-slate-200 border-r border-slate-200 transition-colors">
+        All Books
+    </a>
     {% for genere in generes %}
     <a href="{% url "category_filter" genere.slug %}" class="text-slate-700 py-2.5 px-5 text-sm font-medium hover:bg-slate-200 border-r border-slate-200 transition-colors">
         {{genere.title}}
@@ -22,7 +25,7 @@
 
 <div class="flex bg-slate-50 border-b overflow-x-auto whitespace-nowrap scrollbar-hide py-6 px-4 gap-8">
     {% for author in authors %}
-    <a href="#" class="flex flex-col items-center group shrink-0">
+    <a href="{% url "category_filter" author.slug %}" class="flex flex-col items-center group shrink-0">
 
         {% if author.image %}
             <img src="{{ author.image.url }}" 

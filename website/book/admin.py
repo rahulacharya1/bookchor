@@ -16,7 +16,7 @@ class AuthorAdmin(admin.ModelAdmin):
 admin.site.register(Author, AuthorAdmin)
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ("title","price","discount_price","genere","author","asin","language")
+    list_display = ("title","price","discount_price","genere","author","isbn","language")
     prepopulated_fields = {"slug":("title",)}
     
 admin.site.register(Book, BookAdmin)

@@ -20,16 +20,32 @@
                         </h2>
                         <p class="text-xs text-slate-500 truncate">{{book.author}}</p>
                         
-                        <div class="flex items-center justify-between mt-3">
-                            <div class="flex gap-2">
-                                <p class="text-lg font-bold text-purple-700">₹<del>{{book.discount_price}}</del></p>
-                                <p class="text-lg font-bold text-purple-700">₹{{book.price}}</p>
+                        <div class="flex justify-between mt-3">
+                            <div class="flex items-center gap-2">
+                                <p class="text-lg font-bold text-purple-700">₹{{book.discount_price}}</p>
+                                <p class="text-md text-slate-400 line-through">₹{{book.price}}</p>
                             </div>
-                            <button class="text-md bg-slate-100 px-3 py-1 rounded hover:bg-purple-100 hover:text-purple-700 transition">
+                            <a href="{% url 'book_view' book.slug %}" class="text-md bg-slate-100 px-3 py-1 rounded hover:bg-purple-100 hover:text-purple-700 transition">
                                 View
-                            </button>
+                            </a>
                         </div>
                     </div>
+                </div>
+            {% empty %}
+                <div class="col-span-full py-20 flex flex-col items-center justify-center text-center">
+                    <div class="bg-slate-50 p-6 rounded-full mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800">Coming Soon</h3>
+                    <p class="text-slate-500 mt-2 max-w-sm">We're currently updating our collection. New books for <span class="text-purple-700 font-medium">{{title}}</span> will be available shortly!</p>
+                    <a href="{% url 'home' %}" class="mt-6 text-purple-700 font-medium hover:underline flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </a>
                 </div>
             {% endfor %}
         </div>

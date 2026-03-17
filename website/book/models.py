@@ -31,7 +31,7 @@ class Book(models.Model):
     genere = models.ForeignKey(Genere, on_delete=models.CASCADE, related_name="categorys")
     image = models.ImageField(upload_to="books")
     edition = models.CharField(default="Latest Edition")
-    asin = models.CharField(max_length=200)
+    isbn = models.CharField(max_length=200)
     language = models.CharField(default="English")
     
     def __str__(self):
