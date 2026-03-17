@@ -1,20 +1,20 @@
 <div class="flex bg-white border-b items-center justify-between">
-    <h2 class="text-purple-700 p-4 font-bold uppercase text-2xl border-r border-slate-200">BookChor</h2>
+    <a href="/" class="text-purple-700 px-6 font-bold uppercase text-2xl">BookChor</a>
 
-    <form action="" method="get" class="flex-1 px-6">
-        <input type="search" class="border w-full bg-slate-100 placeholder:font-light border-slate-200 px-4 py-2 rounded-sm focus:outline-none focus:ring-1 focus:ring-purple-700" placeholder="Search by Title, Author, ISBN...">
+    <form action="{% url "filter" %}" method="get" class="flex-1 px-6">
+        <input type="search" name="search" class="border w-full bg-slate-100 placeholder:font-light border-slate-200 px-4 py-2 rounded-sm focus:outline-none focus:ring-1 focus:ring-purple-700" placeholder="Search by Title, Author, ISBN...">
     </form>
 
     <div class="flex h-full border-l border-slate-200">
-        <a href="#" class="px-6 py-4 hover:bg-slate-50 transition">Home</a>
-        <a href="#" class="px-6 py-4 hover:bg-slate-50 transition border-l border-slate-200">Login</a>
+        <a href="#" class="px-6 py-5 hover:bg-slate-50 transition">Home</a>
+        <a href="#" class="px-6 py-5 hover:bg-slate-50 transition border-l border-slate-200">Login</a>
         <a href="#" class="flex items-center px-8 bg-purple-700 text-white font-semibold hover:bg-purple-800 transition">Cart</a>
     </div>
 </div>
 
 <div class="flex bg-slate-100 border-b overflow-x-auto whitespace-nowrap scrollbar-hide">
     {% for genere in generes %}
-    <a href="" class="text-slate-700 py-2.5 px-5 text-sm font-medium hover:bg-slate-200 border-r border-slate-200 transition-colors">
+    <a href="{% url "category_filter" genere.slug %}" class="text-slate-700 py-2.5 px-5 text-sm font-medium hover:bg-slate-200 border-r border-slate-200 transition-colors">
         {{genere.title}}
     </a>
     {% endfor %}
@@ -23,14 +23,21 @@
 <div class="flex bg-slate-50 border-b overflow-x-auto whitespace-nowrap scrollbar-hide py-6 px-4 gap-8">
     {% for author in authors %}
     <a href="#" class="flex flex-col items-center group shrink-0">
-        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-slate-200 border-2 border-slate-100 group-hover:border-purple-500 transition-all duration-300">
-            <img src="{{author.image.url}}" alt="{{author.name}}"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-        
+
+        {% if author.image %}
+            <img src="{{ author.image.url }}" 
+                 alt="{{ author.name }}" 
+                 class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover">
+        {% else %}
+            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-slate-200 border-2 border-slate-100 group-hover:border-purple-500 text-2xl font-bold flex items-center justify-center text-purple-400 transition-all duration-300">
+                {{ author.name|slice:":1" }}
+            </div>
+        {% endif %}
+
         <h2 class="mt-3 text-sm font-semibold text-slate-800 capitalize group-hover:text-purple-700 transition-colors">
-            {{author.name}}
+            {{ author.name }}
         </h2>
+
     </a>
     {% endfor %}
 </div>

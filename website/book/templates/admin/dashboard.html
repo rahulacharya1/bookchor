@@ -1,0 +1,88 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+
+<div class="grid grid-cols-5 gap-5">
+    <div class="flex flex-col bg-amber-600 text-white px-6 py-5 rounded-lg shadow-sm">
+        <h2 class="text-3xl font-bold">{{ total_authors }}</h2>
+        <h1 class="text-sm uppercase tracking-wider font-semibold opacity-90">Total Authors</h1>
+    </div>
+
+    <div class="flex flex-col bg-purple-700 text-white px-6 py-5 rounded-lg shadow-sm">
+        <h2 class="text-3xl font-bold">{{ total_generes }}</h2>
+        <h1 class="text-sm uppercase tracking-wider font-semibold opacity-90">Total Genres</h1>
+    </div>
+
+    <div class="flex flex-col bg-blue-700 text-white px-6 py-5 rounded-lg shadow-sm">
+        <h2 class="text-3xl font-bold">{{ total_books }}</h2>
+        <h1 class="text-sm uppercase tracking-wider font-semibold opacity-90">Total Books</h1>
+    </div>
+
+    <div class="flex flex-col bg-rose-700 text-white px-6 py-5 rounded-lg shadow-sm">
+        <h2 class="text-3xl font-bold">40</h2>
+        <h1 class="text-sm uppercase tracking-wider font-semibold opacity-90">Total Payments</h1>
+    </div>
+
+    <div class="flex flex-col bg-emerald-700 text-white px-6 py-5 rounded-lg shadow-sm">
+        <h2 class="text-3xl font-bold">40</h2>
+        <h1 class="text-sm uppercase tracking-wider font-semibold opacity-90">Total Orders</h1>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
+    <div class="flex flex-col bg-white border border-slate-200 shadow-sm">
+        <h2 class="font-bold text-xl p-5 border-b border-slate-200 text-slate-800">Recent Orders</h2>
+        <div class="p-5">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50">
+                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">Id</th>
+                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">Name</th>
+                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">1</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900">Rahul Acharya</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm font-bold text-purple-700">₹499</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">2</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900">Rahul</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm font-bold text-purple-700">₹999</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="flex flex-col bg-white border border-slate-200 shadow-sm">
+        <h2 class="font-bold text-xl p-5 border-b border-slate-200 text-slate-800">Recent Users</h2>
+        <div class="p-5">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50">
+                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">Id</th>
+                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">User Name</th>
+                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">1</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900">rahul_acharya</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">rahul@example.com</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">2</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900">aman_kumar</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">aman@example.com</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

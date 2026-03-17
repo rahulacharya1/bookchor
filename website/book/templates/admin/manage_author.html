@@ -1,0 +1,64 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+<div class="flex flex-col">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="font-bold text-2xl text-slate-800">Manage Authors</h2>
+            <p class="text-sm text-slate-500">Total Authors: {{ authors|length }}</p>
+        </div>
+        <a href="{% url 'admin_insert_author' %}"
+            class="bg-purple-700 hover:bg-purple-800 text-white px-5 py-2.5 rounded-sm font-semibold transition flex items-center gap-2">
+            <span>+</span> Insert Author
+        </a>
+    </div>
+
+    <div class="bg-white border border-slate-200 shadow-sm">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-50">
+                    <th class="border-b border-slate-200 px-6 py-4 text-sm font-bold text-slate-700 w-20">ID</th>
+                    <th class="border-b border-slate-200 px-6 py-4 text-sm font-bold text-slate-700">Author Name</th>
+                    <th class="border-b border-slate-200 px-6 py-4 text-sm font-bold text-slate-700">Author Image</th>
+                    <th class="border-b border-slate-200 px-6 py-4 text-sm font-bold text-slate-700">No. of Books</th>
+                    <th class="border-b border-slate-200 px-6 py-4 text-sm font-bold text-slate-700 text-right">Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for author in authors %}
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-6 py-4 text-sm text-slate-600">{{author.id}}</td>
+                    <td class="px-6 py-4 text-sm font-medium text-slate-900">{{author.name}}</td>
+                    <td class="border-b border-slate-200 p-3">
+                        <div>
+                            {% if author.image %}
+                            <img src="{{author.image.url}}" alt="{{author.name}}"
+                                class="h-20 w-16 object-cover rounded-md border border-slate-100 shadow-sm">
+                            {% else %}
+                            <div class="h-20 w-16 bg-slate-100 rounded-md flex items-center justify-center text-slate-400">
+                                {{author.name|slice:":1"}} 
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-slate-600">
+                        <span class="bg-slate-100 px-3 py-2 rounded-full text-xs font-semibold">
+                            {{author.authors.count}} Books
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-right">
+                        <button class="text-blue-600 hover:text-blue-800 font-medium mr-3">Edit</button>
+                        <button class="text-red-600 hover:text-red-800 font-medium">Delete</button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="px-6 py-10 text-center text-slate-400 italic">No authors found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

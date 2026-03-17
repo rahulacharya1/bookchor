@@ -4,7 +4,7 @@ from django.db import models
 
 class Genere(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.CharField(max_length=200)
+    slug = models.SlugField()
     description = models.TextField(null=True, blank=True)
     
     def __str__(self):
@@ -12,7 +12,7 @@ class Genere(models.Model):
     
 class Author(models.Model):
     name = models.CharField(max_length=200)
-    slug = models.CharField(max_length=200)
+    slug = models.SlugField()
     image = models.ImageField(null=True, blank=True, upload_to="author")
     email = models.EmailField(null=True, blank=True)
     contact = models.CharField(max_length=20, null=True, blank=True)
@@ -22,7 +22,7 @@ class Author(models.Model):
     
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.CharField(max_length=200)
+    slug = models.SlugField()
     price = models.FloatField()
     discount_price = models.FloatField(null=True, blank=True)
     description = models.TextField()
@@ -36,5 +36,4 @@ class Book(models.Model):
     
     def __str__(self):
         return self.title
-    
     
