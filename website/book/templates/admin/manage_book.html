@@ -101,6 +101,17 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <div class="p-4">
+                <span class="text-sm text-slate-500">Page {{ books.number }} of {{ books.paginator.num_pages }}</span>
+                <div class="float-right">
+                    {% if books.has_previous %}
+                    <a href="?page={{ books.previous_page_number }}" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Previous</a>
+                    {% endif %}
+                    {% if books.has_next %}
+                    <a href="?page={{ books.next_page_number }}" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Next</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </div>

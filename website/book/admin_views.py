@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from book.models import *
 from book.forms import *
+from django.core.paginator import Paginator
 
 
 def dashboard(request):
@@ -13,7 +14,11 @@ def dashboard(request):
 
 def manageAuthor(request):
     data = {}
-    data['authors'] = Author.objects.all()
+    authors = Author.objects.all()
+    paginator = Paginator(authors, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    data['authors'] = page_obj
     return render(request, 'admin/manage_author.html', data)
 
 
@@ -33,7 +38,11 @@ def insertAuthor(request):
 
 def manageGenere(request):
     data = {}
-    data['generes'] = Genere.objects.all()
+    generes = Genere.objects.all()
+    paginator = Paginator(generes, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    data['generes'] = page_obj
     return render(request, 'admin/manage_genere.html', data)
 
 
@@ -53,7 +62,11 @@ def insertGenere(request):
 
 def manageBook(request):
     data = {}
-    data['books'] = Book.objects.all()
+    books = Book.objects.all()
+    paginator = Paginator(books, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    data['books'] = page_obj
     return render(request, 'admin/manage_book.html', data)
 
 
