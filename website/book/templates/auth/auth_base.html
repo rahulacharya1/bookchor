@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication | BookChor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+    <div class="flex bg-white border-b items-center justify-between">
+        <a href="/" class="text-purple-700 px-6 font-bold uppercase text-2xl">BookChor</a>
+    
+        <div class="flex h-full border-l border-slate-200">
+            <a href="{% url 'home' %}" class="px-6 py-5 hover:bg-slate-50 transition">Home</a>
+            {% if user.is_authenticated %}
+            <p class="px-6 py-5 text-slate-700 transition border-l border-slate-200">Hello, {{ request.user.first_name }}</p>
+            <a href="{% url 'logout' %}" class="flex items-center px-6 bg-purple-700 text-white font-semibold hover:bg-purple-800 transition">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="px-6 py-5 hover:bg-slate-50 transition border-l border-slate-200">Login</a>
+            <a href="{% url 'register' %}" class="flex items-center px-6 bg-purple-700 text-white font-semibold hover:bg-purple-800 transition">Get Started</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% block content %}
+    {% endblock  %}
+
+    <footer class="bg-white border-t border-slate-200 py-6 text-center">
+        <p class="text-slate-500 text-sm font-medium">
+            &copy; 2026 <span class="text-purple-700 font-bold uppercase">BookChor</span>. All rights reserved.
+        </p>
+    </footer>
+    
+</body>
+</html>

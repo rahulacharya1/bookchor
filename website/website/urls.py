@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from book.views import *
 from book.admin_views import *
+from book.auth_views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -11,6 +12,12 @@ urlpatterns = [
     path("filter/", filter, name="filter"),
     path("filter/<slug:slug>", filter, name="category_filter"),
     path("book/<slug:slug>", book_view, name="book_view"),
+    
+    # Auth-Work
+    
+    path("auth/login/", login_view, name='login'),
+    path("auth/register/", register_view, name='register'),
+    path("auth/logout/", logout_view, name='logout'),
     
     # Admin-Work
     

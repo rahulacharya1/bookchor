@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from book.models import *
 from book.forms import *
 from django.core.paginator import Paginator
+from django.contrib.admin.views.decorators import staff_member_required
 
 
+@staff_member_required(login_url='login')
 def dashboard(request):
     data = {}
     data['total_books'] = Book.objects.count()
@@ -12,6 +14,7 @@ def dashboard(request):
     return render(request, 'admin/dashboard.html', data)
 
 
+@staff_member_required(login_url='login')
 def manageAuthor(request):
     data = {}
     authors = Author.objects.all()
@@ -22,6 +25,7 @@ def manageAuthor(request):
     return render(request, 'admin/manage_author.html', data)
 
 
+@staff_member_required(login_url='login')
 def insertAuthor(request):
     data = {}
     form = AuthorForm(request.POST or None, request.FILES or None)
@@ -36,6 +40,7 @@ def insertAuthor(request):
     return render(request, 'admin/insert_author.html', data)
 
 
+@staff_member_required(login_url='login')
 def manageGenere(request):
     data = {}
     generes = Genere.objects.all()
@@ -46,6 +51,7 @@ def manageGenere(request):
     return render(request, 'admin/manage_genere.html', data)
 
 
+@staff_member_required(login_url='login')
 def insertGenere(request):
     data = {}
     form = GenereForm(request.POST or None, request.FILES or None)
@@ -60,6 +66,7 @@ def insertGenere(request):
     return render(request, 'admin/insert_genere.html', data)
 
 
+@staff_member_required(login_url='login')
 def manageBook(request):
     data = {}
     books = Book.objects.all()
@@ -70,6 +77,7 @@ def manageBook(request):
     return render(request, 'admin/manage_book.html', data)
 
 
+@staff_member_required(login_url='login')
 def insertBook(request):
     data = {}
     form = BookForm(request.POST or None, request.FILES or None)

@@ -1,5 +1,7 @@
+from django import forms
 from django.forms import ModelForm
 from .models import *
+from django.contrib.auth.models import User
 
 class AuthorForm(ModelForm):
     class Meta:
@@ -18,3 +20,15 @@ class BookForm(ModelForm):
         model = Book
         exclude = ['slug']
         
+
+class RegisterForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+        widgets = {"password":forms.PasswordInput(render_value=False)}
+        
+        
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=150)
+    password = forms.CharField(widget=forms.PasswordInput)
+    
