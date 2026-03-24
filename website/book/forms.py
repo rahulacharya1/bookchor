@@ -21,7 +21,8 @@ class BookForm(ModelForm):
         exclude = ['slug']
         
 
-class RegisterForm(ModelForm):
+class RegisterForm(ModelForm, forms.Form):
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password']

@@ -1,15 +1,24 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
-from django.contrib.auth import authenticate, logout, login as auth_login
+from django.contrib.auth import authenticate, logout, login
+
 
 def register_view(request):
     form = RegisterForm(request.POST or None)
     if form.is_valid():
         password = form.cleaned_data.get("password")
-        data = form.save(commit=False)
-        data.set_password(password)
-        data.save()
-        return redirect('login')
+        confirm_password = form.cleaned_data.get("confirm_password")
+        
+        if password != confirm_password:
+            form.add_error("confirm_password", "Passwords do not match")
+            return render(request, 'auth/register.html', {'form': form})
+        else:
+            data = form.save(commit=False)
+            data.set_password(password)
+            data.save()
+            login(request, data)
+            return redirect('home')
+        
     return render(request, 'auth/register.html', {'form': form})
 
 
@@ -25,12 +34,13 @@ def login_view(request):
         login_user = authenticate(username=username, password=password)
         
         if login_user is not None:
-            auth_login(request, login_user)
+            login(request, login_user)
             return redirect('home')
         
         form.add_error(None, "Invalid Username or Password")
         
     return render(request, 'auth/login.html', {'form': form})
+
 
 def logout_view(request):
     logout(request)
