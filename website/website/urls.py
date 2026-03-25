@@ -3,15 +3,19 @@ from django.urls import path
 from book.views import *
 from book.admin_views import *
 from book.auth_views import *
+from book.checkout_views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
+    
     path('superadmin/', admin.site.urls),
     path('', home, name='home'),
     path("filter/", filter, name="filter"),
     path("filter/<slug:slug>", filter, name="category_filter"),
     path("book/<slug:slug>", book_view, name="book_view"),
+    path("cart/", cart, name='cart'),
     
     # Auth-Work
     
@@ -19,6 +23,16 @@ urlpatterns = [
     path("auth/register/", register_view, name='register'),
     path("auth/logout/", logout_view, name='logout'),
     
+    # Checkout-Work
+    
+    path("checkout/", checkout, name='checkout'),
+    path("checkout/add-to-cart/<slug:slug>/", addToCart, name='add_to_cart'),
+    path("checkout/minus-from-cart/<slug:slug>/", minusFromCart, name='minus_from_cart'),
+    path("checkout/remove-from-cart/<slug:slug>/", removeFromCart, name='remove_from_cart'),
+    path("checkout/apply-coupon/", applyCoupon, name='apply_coupon'),
+    path("checkout/remove-coupon/", removeCoupon, name='remove_coupon'),
+    path("checkout/check-coupon/", checkCoupon, name='check_coupon'),
+
     # Admin-Work
     
     path("admin/", dashboard, name='dashboard'),

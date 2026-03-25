@@ -67,3 +67,8 @@ def book_view(request, slug):
     }
     return render(request, "book_view.html", data)
 
+
+
+def cart(request):
+    return render(request, "cart.html")
+

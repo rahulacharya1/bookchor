@@ -2,19 +2,33 @@ from django.shortcuts import render, redirect
 from book.models import *
 from book.forms import *
 from django.core.paginator import Paginator
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import logout
+from functools import wraps
+from django.http import HttpResponseForbidden
 
 
-@staff_member_required(login_url='login')
+def superuser_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden("<h1>You must be logged in to access this page</h1>")
+        if not request.user.is_superuser:
+            return HttpResponseForbidden("<h1>You do not have permission to access this page<h1>")
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
+
+@superuser_required
 def dashboard(request):
     data = {}
     data['total_books'] = Book.objects.count()
     data['total_authors'] = Author.objects.count()
     data['total_generes'] = Genere.objects.count()
+    data['users'] = User.objects.all()
     return render(request, 'admin/dashboard.html', data)
 
 
+@superuser_required
 def admin_logout_view(request):
     logout(request)
     return redirect('login')
@@ -23,7 +37,7 @@ def admin_logout_view(request):
 # ------------------------------ Author Work ----------------------------------
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def manageAuthor(request):
     data = {}
     authors = Author.objects.all()
@@ -34,7 +48,7 @@ def manageAuthor(request):
     return render(request, 'admin/author/manage_author.html', data)
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def insertAuthor(request):
     data = {}
     form = AuthorForm(request.POST or None, request.FILES or None)
@@ -49,7 +63,7 @@ def insertAuthor(request):
     return render(request, 'admin/author/insert_author.html', data)
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def editAuthor(request, id):
     author = Author.objects.get(id=id)
     form = AuthorForm(request.POST or None, request.FILES or None, instance=author)
@@ -64,7 +78,7 @@ def editAuthor(request, id):
     return render(request, "admin/author/edit_author.html", {'form': form})
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def deleteAuthor(request, id):
     Author.objects.get(id=id).delete()
     return redirect('admin_manage_author')
@@ -73,7 +87,7 @@ def deleteAuthor(request, id):
 # ------------------------------ Genere Work ----------------------------------
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def manageGenere(request):
     data = {}
     generes = Genere.objects.all()
@@ -84,7 +98,7 @@ def manageGenere(request):
     return render(request, 'admin/genere/manage_genere.html', data)
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def insertGenere(request):
     data = {}
     form = GenereForm(request.POST or None, request.FILES or None)
@@ -99,7 +113,7 @@ def insertGenere(request):
     return render(request, 'admin/genere/insert_genere.html', data)
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def editGenere(request, id):
     genere = Genere.objects.get(id=id)
     form = GenereForm(request.POST or None, request.FILES or None, instance=genere)
@@ -114,7 +128,7 @@ def editGenere(request, id):
     return render(request, "admin/genere/edit_genere.html", {'form': form})
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def deleteGenere(request, id):
     Genere.objects.get(id=id).delete()
     return redirect('admin_manage_genere')
@@ -123,7 +137,7 @@ def deleteGenere(request, id):
 # ------------------------------ Book Work ----------------------------------
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def manageBook(request):
     data = {}
     books = Book.objects.all()
@@ -134,7 +148,7 @@ def manageBook(request):
     return render(request, 'admin/book/manage_book.html', data)
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def insertBook(request):
     data = {}
     form = BookForm(request.POST or None, request.FILES or None)
@@ -149,7 +163,7 @@ def insertBook(request):
     return render(request, 'admin/book/insert_book.html', data)
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def editBook(request, id):
     book = Book.objects.get(id=id)
     form = BookForm(request.POST or None, request.FILES or None, instance=book)
@@ -164,7 +178,7 @@ def editBook(request, id):
     return render(request, "admin/book/edit_book.html", {'form': form})
 
 
-@staff_member_required(login_url='login')
+@superuser_required
 def deleteBook(request, id):
     Book.objects.get(id=id).delete()
     return redirect('admin_manage_book')

@@ -9,6 +9,9 @@
         <a href="{% url 'home' %}" class="px-6 py-5 hover:bg-slate-50 transition">Home</a>
         {% if user.is_authenticated %}
         <p class="px-6 py-5 transition border-l border-slate-200">Hello, {{ request.user.first_name }}</p>
+        {% if user.is_superuser %}
+        <a href="{% url 'dashboard' %}" class="px-6 py-5 transition border-l border-slate-200">Admin Panel</a>
+        {% endif %}
         <a href="{% url 'logout' %}" class="px-6 py-5 transition border-l border-slate-200">Logout</a>
         {% else %}
         <a href="{% url 'login' %}" class="px-6 py-5 hover:bg-slate-50 transition border-l border-slate-200">Login</a>

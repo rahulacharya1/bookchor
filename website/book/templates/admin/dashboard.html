@@ -19,8 +19,8 @@
     </div>
 
     <div class="flex flex-col bg-rose-700 text-white px-6 py-5 rounded-lg shadow-sm">
-        <h2 class="text-3xl font-bold">40</h2>
-        <h1 class="text-sm uppercase tracking-wider font-semibold opacity-90">Total Payments</h1>
+        <h2 class="text-3xl font-bold">{{ users|length }}</h2>
+        <h1 class="text-sm uppercase tracking-wider font-semibold opacity-90">Total Users</h1>
     </div>
 
     <div class="flex flex-col bg-emerald-700 text-white px-6 py-5 rounded-lg shadow-sm">
@@ -63,22 +63,21 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50">
-                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">Id</th>
-                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">User Name</th>
+                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">S.No.</th>
+                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">Name</th>
+                        <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">Username</th>
                         <th class="border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700">Email</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for user in users %}
                     <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">1</td>
-                        <td class="border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900">rahul_acharya</td>
-                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">rahul@example.com</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">{{ forloop.counter }}.</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900">{{ user.first_name }}</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900">{{ user.username }}</td>
+                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">{{ user.email }}</td>
                     </tr>
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">2</td>
-                        <td class="border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900">aman_kumar</td>
-                        <td class="border border-slate-200 px-4 py-2 text-sm text-slate-600">aman@example.com</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
