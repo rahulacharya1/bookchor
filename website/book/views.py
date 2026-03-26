@@ -70,5 +70,12 @@ def book_view(request, slug):
 
 
 def cart(request):
-    return render(request, "cart.html")
+    data = {
+        "generes":Genere.objects.all(),
+        "books":Book.objects.all(),
+        "authors":Author.objects.all()
+    }
+    cart_items = OrderItem.objects.filter(order_id__user_id=request.user, order_id__payment_id=None)
+    order = Order.objects.get(user_id=request.user, payment_id=None) 
+    return render(request, "cart.html", {"cart_items":cart_items, "order":order, ** data})
 
