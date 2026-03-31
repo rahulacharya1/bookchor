@@ -74,16 +74,34 @@ def checkout(request):
 
 @login_required(login_url='login')
 def applyCoupon(request):
-    pass
+    if request.method == 'POST':
+        code = request.POST.get('code')
+        coupon_qs = Coupon.objects.filter(code__iexact=code, active=True)
+        if coupon_qs.exists():
+            coupon = coupon_qs[0]
+            order_qs = Order.objects.filter(user_id=request.user, payment_id=None)
+            if order_qs.exists():
+                order = order_qs[0]
+                order.coupon_id = coupon
+                order.save()
+                return redirect('cart')
+            else:
+                return redirect('cart')
+        else:
+            return redirect('cart')
+    else:
+        return redirect('cart')
 
 
 @login_required(login_url='login')
 def removeCoupon(request):
-    pass
-
-
-@login_required(login_url='login')
-def checkCoupon(request):
-    pass
+    order_qs = Order.objects.filter(user_id=request.user, payment_id=None)
+    if order_qs.exists():
+        order = order_qs[0]
+        order.coupon_id = None
+        order.save()
+        return redirect('cart')
+    else:
+        return redirect('cart')
 
 

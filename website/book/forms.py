@@ -20,6 +20,17 @@ class BookForm(ModelForm):
         model = Book
         exclude = ['slug']
         
+        
+class CouponForm(ModelForm):
+    class Meta:
+        model = Coupon
+        widgets = {
+            "code": forms.TextInput(attrs={"placeholder": "Enter Coupon Code"}),
+            "valid_from": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+            "valid_to": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+        }
+        fields = ["code", "discount_amount", "valid_from", "valid_to", "active"]
+        
 
 class RegisterForm(ModelForm, forms.Form):
     confirm_password = forms.CharField(widget=forms.PasswordInput)

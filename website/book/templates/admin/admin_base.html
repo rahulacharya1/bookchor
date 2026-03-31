@@ -52,6 +52,12 @@
                     Manage Authors
                 </a>
 
+                <a href="{% url 'admin_manage_coupon' %}"
+                    class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all 
+                    {% if request.resolver_match.url_name == 'admin_manage_coupon' %} bg-purple-600 text-white shadow-lg shadow-purple-900/20 {% else %} hover:bg-slate-800 hover:text-white {% endif %}">
+                    Manage Coupons
+                </a>
+
                 <div class="pt-6 mt-6 border-t border-slate-800">
                     <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-4">Business</p>
                     <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-all">Users</a>

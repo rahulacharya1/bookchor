@@ -1,0 +1,78 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+<div class="flex flex-col">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="font-bold text-2xl text-slate-800">Complete Coupon Inventory</h2>
+            <p class="text-sm text-slate-500">Managing {{ coupons|length }} coupons</p>
+        </div>
+        <a href="{% url 'admin_insert_coupon' %}" class="bg-purple-700 hover:bg-purple-800 text-white px-5 py-2.5 rounded-md font-semibold transition flex items-center gap-2">
+            <span>+</span> Add New Coupon
+        </a>
+    </div>
+
+    <div class="bg-white border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200">
+                        <th class="px-4 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">S.No.</th>
+                        <th class="px-4 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Coupon Code</th>
+                        <th class="px-4 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Discount Amount</th>
+                        <th class="px-4 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Valid From</th>
+                        <th class="px-4 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Valid To</th>
+                        <th class="px-4 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Active</th>
+                        <th class="px-4 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for coupon in coupons %}
+                    <tr class="hover:bg-slate-50/80 transition-colors">
+                        <td class="px-4 py-4 text-sm font-medium text-slate-400">{{ forloop.counter }}</td>
+                        <td class="px-4 py-4 text-sm text-slate-700">{{ coupon.code }}</td>
+                        <td class="px-4 py-4 text-sm text-slate-700">{{ coupon.discount_amount }}</td>
+                        <td class="px-4 py-4 text-sm text-slate-700">{{ coupon.valid_from|date:"M d, Y" }}</td>
+                        <td class="px-4 py-4 text-sm text-slate-700">{{ coupon.valid_to|date:"M d, Y" }}</td>
+                        <td class="px-4 py-4 text-sm">
+                            {% if coupon.active %}
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                            {% else %}
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-4 text-right">
+                            <div class="flex justify-end gap-2">
+                                <a href="{% url "admin_edit_coupon" coupon.id %}" class="p-2 text-blue-600 hover:bg-blue-50 rounded transition" title="Edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                                </a>
+                                <a href="{% url "admin_delete_coupon" coupon.id %}" class="p-2 text-red-600 hover:bg-red-50 rounded transition" title="Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="px-6 py-20 text-center">
+                            <p class="text-slate-400 italic">No coupons found in the inventory.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="p-4">
+                <span class="text-sm text-slate-500">Page {{ coupons.number }} of {{ coupons.paginator.num_pages }}</span>
+                <div class="float-right">
+                    {% if coupons.has_previous %}
+                    <a href="?page={{ coupons.previous_page_number }}" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Previous</a>
+                    {% endif %}
+                    {% if coupons.has_next %}
+                    <a href="?page={{ coupons.next_page_number }}" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -182,3 +182,51 @@ def editBook(request, id):
 def deleteBook(request, id):
     Book.objects.get(id=id).delete()
     return redirect('admin_manage_book')
+
+
+# ------------------------------ Coupon Work ----------------------------------
+
+
+@superuser_required
+def manageCoupon(request):
+    data = {}
+    coupons = Coupon.objects.all()
+    paginator = Paginator(coupons, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    data['coupons'] = page_obj
+    return render(request, 'admin/coupon/manage_coupon.html', data)
+
+
+@superuser_required
+def insertCoupon(request):
+    data = {}
+    form = CouponForm(request.POST or None, request.FILES or None)
+    data['form'] = form
+    
+    if request.method == 'POST':
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.save()
+            return redirect('admin_manage_coupon')
+    return render(request, 'admin/coupon/insert_coupon.html', data)
+
+
+@superuser_required
+def editCoupon(request, id):
+    coupon = Coupon.objects.get(id=id)
+    form = CouponForm(request.POST or None, request.FILES or None, instance=coupon)
+    
+    if request.method == "POST":
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.save()
+            return redirect('admin_manage_coupon')
+        
+    return render(request, "admin/coupon/edit_coupon.html", {'form': form})
+
+
+@superuser_required
+def deleteCoupon(request, id):
+    Coupon.objects.get(id=id).delete()
+    return redirect('admin_manage_coupon')

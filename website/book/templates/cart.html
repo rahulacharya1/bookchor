@@ -94,6 +94,10 @@
                             <span>Tax</span>
                             <span class="font-medium text-slate-900">₹{{ order.get_tax_price }}</span>
                         </div>
+                        <div class="flex justify-between">
+                            <span>Discount</span>
+                            <span class="font-medium text-slate-900">₹{{ order.get_discount_amount }}</span>
+                        </div>
                         <div class="border-t border-slate-200 pt-4 flex justify-between">
                             <span class="text-lg font-bold text-slate-900">Total</span>
                             <span class="text-2xl font-bold text-purple-700">₹{{ order.get_total_payable_price }}</span>
@@ -104,6 +108,22 @@
                         class="w-full bg-purple-700 text-white font-bold py-4 rounded-lg mt-8 hover:bg-purple-800 transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
                         Proceed to Checkout
                     </button>
+
+                    {% if order.coupon_id %}
+                    <div class="mt-5 p-3 bg-green-50 border border-green-200 rounded">
+                        <p class="text-sm text-green-600">Coupon Applied: <span class="font-medium">{{ order.coupon_id.code }}</span></p>
+                        <p class="text-sm text-green-600">Discount Amount: ₹{{ order.coupon_id.discount_amount }}</p>
+                        <a href="{% url 'remove_coupon' %}" class="text-red-500 text-sm">Remove Coupon</a>
+                    </div>
+                    {% else %}
+                    <form action="{% url 'apply_coupon' %}" method="post" class="mt-5">
+                        {% csrf_token %}
+                        <div class="flex gap-2">
+                            <input type="text" name="code" placeholder="Enter Coupon Code" class="w-full border border-slate-200 rounded-md px-3 py-2">
+                            <button type="submit" class="bg-green-500 text-white px-3 py-2 rounded-md">Apply</button>
+                        </div>
+                    </form>
+                    {% endif %}
 
                     <div
                         class="mt-6 flex items-center justify-center gap-2 text-xs text-slate-400 uppercase tracking-wider font-semibold">

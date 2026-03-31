@@ -31,7 +31,6 @@ urlpatterns = [
     path("checkout/remove-from-cart/<slug:slug>/", removeFromCart, name='remove_from_cart'),
     path("checkout/apply-coupon/", applyCoupon, name='apply_coupon'),
     path("checkout/remove-coupon/", removeCoupon, name='remove_coupon'),
-    path("checkout/check-coupon/", checkCoupon, name='check_coupon'),
 
     # Admin-Work
     
@@ -52,6 +51,10 @@ urlpatterns = [
     path("admin/books/insert/", insertBook, name='admin_insert_book'),
     path("admin/books/edit/<int:id>/", editBook, name='admin_edit_book'),
     path("admin/books/delete/<int:id>/", deleteBook, name='admin_delete_book'),
-
+    
+    path("admin/coupons/", manageCoupon, name='admin_manage_coupon'),
+    path("admin/coupons/insert/", insertCoupon, name='admin_insert_coupon'),
+    path("admin/coupons/edit/<int:id>/", editCoupon, name='admin_edit_coupon'),
+    path("admin/coupons/delete/<int:id>/", deleteCoupon, name='admin_delete_coupon'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
