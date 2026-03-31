@@ -13,6 +13,7 @@
         </nav>
     </div>
 
+    {% if cart_items %}
     <div class="max-w-7xl mx-auto px-6 py-10">
         <h1 class="text-3xl font-bold text-slate-900 mb-8">Shopping Cart</h1>
 
@@ -116,5 +117,19 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="rounded-xl p-16 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center m-10">
+        <div class="bg-slate-100 p-4 rounded-full mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-slate-400" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+        </div>
+        <p class="text-slate-500 font-medium">Your cart is currently empty.</p>
+        <a href="{% url 'home' %}" class="mt-4 text-purple-700 font-semibold hover:underline">Start Shopping →</a>
+    </div>
+    {% endif %}
+    
 </div>
 {% endblock %}

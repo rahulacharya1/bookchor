@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import *
 import re
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -68,7 +70,7 @@ def book_view(request, slug):
     return render(request, "book_view.html", data)
 
 
-
+@login_required(login_url='login')
 def cart(request):
     data = {
         "generes":Genere.objects.all(),

@@ -16,7 +16,7 @@
         {% else %}
         <a href="{% url 'login' %}" class="px-6 py-5 hover:bg-slate-50 transition border-l border-slate-200">Login</a>
         {% endif %}
-        <a href="#" class="flex items-center px-8 bg-purple-700 text-white font-semibold hover:bg-purple-800 transition">Cart</a>
+        <a href="{% url 'cart' %}" class="flex items-center px-8 bg-purple-700 text-white font-semibold hover:bg-purple-800 transition">Cart</a>
     </div>
 </div>
 
