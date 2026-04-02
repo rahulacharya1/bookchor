@@ -43,6 +43,7 @@ class Book(models.Model):
     
 
 class Address(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200)
     email = models.EmailField()
     contact = models.CharField(max_length=20)
@@ -73,7 +74,7 @@ class Payment(models.Model):
     payment_method = models.CharField(max_length=50)
     payment_date = models.DateTimeField(auto_now_add=True)
     mode = models.CharField(max_length=100)
-    transaction_id = models.CharField(max_length=100)
+    transaction_id = models.CharField(max_length=100, null=True, blank=True)
     
     def __str__(self):
         return f"Payment {self.user_id.username} - {self.amount}"

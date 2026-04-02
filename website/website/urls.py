@@ -31,6 +31,10 @@ urlpatterns = [
     path("checkout/remove-from-cart/<slug:slug>/", removeFromCart, name='remove_from_cart'),
     path("checkout/apply-coupon/", applyCoupon, name='apply_coupon'),
     path("checkout/remove-coupon/", removeCoupon, name='remove_coupon'),
+    path("checkout/add-address/", addAddress, name="add_address"),
+    path('address/edit/<int:id>/', edit_address, name='edit_address'),
+    path('address/delete/<int:id>/', delete_address, name='delete_address'),
+    path("checkout/success/", success, name="success"),
 
     # Admin-Work
     

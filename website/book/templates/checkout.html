@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="w-full bg-slate-50 min-h-screen font-sans antialiased">
+    <div class="bg-white border-b border-slate-200 px-6 py-4">
+        <nav class="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-slate-400 max-w-7xl mx-auto">
+            <a href="{% url 'home' %}" class="hover:text-purple-700 transition">Home</a>
+            <span class="text-slate-300">/</span>
+            <a href="{% url 'cart' %}" class="hover:text-purple-700 transition">Cart</a>
+            <span class="text-slate-300">/</span>
+            <span class="text-slate-900">Checkout</span>
+        </nav>
+    </div>
+
+    <form action="{% url 'checkout' %}" method="post" class="max-w-7xl mx-auto px-6 py-12">
+        {% csrf_token %}
+        
+        <header class="mb-10">
+            <h1 class="text-4xl font-black text-slate-900 tracking-tight">Checkout</h1>
+            <p class="text-slate-500 mt-2">Review your details and complete your book order.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-8 space-y-12">
+                
+                <section>
+                    <div class="flex items-end justify-between mb-6">
+                        <div>
+                            <h3 class="text-2xl font-extrabold text-slate-900">Shipping Details</h3>
+                            <p class="text-sm text-slate-500">Where should we send your books?</p>
+                        </div>
+                        <a href="{% url 'add_address' %}" class="group flex items-center gap-2 text-sm font-bold text-purple-700 bg-purple-50 hover:bg-purple-700 hover:text-white px-4 py-2 rounded-full transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                            Add New
+                        </a>
+                    </div>
+
+                    {% if addresses %}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for address in addresses %}
+                        <label class="group relative block bg-white border-2 border-slate-200 rounded-2xl p-6 cursor-pointer transition-all hover:shadow-md has-[:checked]:border-purple-600 has-[:checked]:ring-4 has-[:checked]:ring-purple-50">
+                            <input type="radio" name="address" value="{{address.id}}" class="sr-only" {% if forloop.first %}checked{% endif %}>
+                            
+                            <div class="relative z-10">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="bg-slate-100 group-has-[:checked]:bg-purple-100 p-2 rounded-lg transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-500 group-has-[:checked]:text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                    </div>
+                                    
+                                    <div class="flex gap-2">
+                                        <a href="{% url 'edit_address' address.id %}" class="p-2 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-md transition" title="Edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                                        </a>
+                                        <a href="{% url 'delete_address' address.id %}" onclick="return confirm('Delete?')" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Delete">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <h4 class="font-bold text-slate-900 text-lg">{{ address.name }}</h4>
+                                <p class="text-sm font-medium text-slate-500 mb-3">{{ address.contact }}</p>
+                                <p class="text-sm text-slate-600 leading-relaxed">
+                                    {{ address.address_line1 }}<br>
+                                    {{ address.city }}, {{ address.state }} - {{ address.postal_code }}
+                                </p>
+                            </div>
+                        </label>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="bg-white border-2 border-dashed border-slate-200 rounded-3xl p-12 text-center">
+                        <div class="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <p class="text-slate-500 font-bold">No addresses found</p>
+                        <a href="{% url 'add_address' %}" class="text-purple-600 text-sm font-bold mt-2 inline-block hover:underline">Click here to add one</a>
+                    </div>
+                    {% endif %}
+                </section>
+
+                <section>
+                    <h3 class="text-2xl font-extrabold text-slate-900 mb-6">Payment Method</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="flex items-center gap-4 p-5 bg-white border-2 border-slate-200 rounded-2xl cursor-pointer transition-all has-[:checked]:border-purple-600 has-[:checked]:bg-purple-50/30">
+                            <input type="radio" name="payment_method" value="cod" class="w-5 h-5 text-purple-600 border-slate-300 focus:ring-purple-500" checked>
+                            <div>
+                                <p class="font-bold text-slate-900">Cash on Delivery</p>
+                                <p class="text-xs text-slate-500">Pay at your door</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-4 p-5 bg-white border-2 border-slate-200 rounded-2xl cursor-pointer transition-all has-[:checked]:border-purple-600 has-[:checked]:bg-purple-50/30">
+                            <input type="radio" name="payment_method" value="online" class="w-5 h-5 text-purple-600 border-slate-300 focus:ring-purple-500">
+                            <div>
+                                <p class="font-bold text-slate-900">Online Payment</p>
+                                <p class="text-xs text-slate-500">UPI, Cards, or Wallet</p>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+            </div>
+
+            <div class="lg:col-span-4">
+                <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-xl shadow-slate-200/50 sticky top-10">
+                    <h2 class="text-xl font-black text-slate-900 mb-8 uppercase tracking-widest border-b border-slate-100 pb-4">Summary</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between text-slate-500 font-medium">
+                            <span>Subtotal</span>
+                            <span class="text-slate-900">₹{{ order.get_total_price }}</span>
+                        </div>
+                        <div class="flex justify-between text-slate-500 font-medium">
+                            <span>Shipping</span>
+                            <span class="text-green-600 font-bold uppercase text-xs">{% if order.get_shipping_charge > 0 %}₹{{ order.get_shipping_charge }}{% else %}Free{% endif %}</span>
+                        </div>
+                        <div class="flex justify-between text-slate-500 font-medium pb-4 border-b border-slate-100">
+                            <span>Tax</span>
+                            <span class="text-slate-900">₹{{ order.get_tax_price }}</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-end pt-4">
+                            <span class="text-sm font-bold text-slate-400 uppercase tracking-tighter">Total Payable</span>
+                            <span class="text-4xl font-black text-purple-700 leading-none">₹{{ order.get_total_payable_price }}</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="mt-10 w-full bg-slate-900 hover:bg-purple-700 text-white font-bold py-5 rounded-2xl transition-all shadow-lg active:scale-95 flex items-center justify-center gap-3">
+                        Place Order
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </button>
+
+                    <p class="mt-6 text-center text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                        Secure Checkout &bullet; Easy Returns
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+
 def home(request):
     data = {
         "title":"Home",
@@ -78,6 +79,8 @@ def cart(request):
         "authors":Author.objects.all()
     }
     cart_items = OrderItem.objects.filter(order_id__user_id=request.user, order_id__payment_id=None)
-    order = Order.objects.get(user_id=request.user, payment_id=None) 
+    order = Order.objects.filter(user_id=request.user, payment_id=None) 
+    if order.exists():
+        order = order[0]
     return render(request, "cart.html", {"cart_items":cart_items, "order":order, ** data})
 

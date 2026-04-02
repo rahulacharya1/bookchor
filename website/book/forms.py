@@ -44,3 +44,21 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
     
+
+
+class AddressForm(ModelForm):
+    class Meta:
+        model = Address
+        widgets = {
+            "name": forms.TextInput(attrs={"placeholder": "Enter Your Name"}),
+            "contact": forms.TextInput(attrs={"placeholder": "Enter Your Contact Number"}),
+            "email": forms.EmailInput(attrs={"placeholder": "Enter Your Email"}),
+            "address_line1": forms.TextInput(attrs={"placeholder": "Enter Address Line 1"}),
+            "address_line2": forms.TextInput(attrs={"placeholder": "Enter Address Line 2"}),
+            "city": forms.TextInput(attrs={"placeholder": "Enter City"}),
+            "state": forms.TextInput(attrs={"placeholder": "Enter State"}),
+            "postal_code": forms.TextInput(attrs={"placeholder": "Enter Postal Code"}),
+        }
+        fields = ["name","contact", "email","address_line1", "address_line2", "city", "state", "postal_code"]
+        
+        

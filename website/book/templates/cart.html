@@ -13,7 +13,7 @@
         </nav>
     </div>
 
-    {% if cart_items %}
+    {% if order %}
     <div class="max-w-7xl mx-auto px-6 py-10">
         <h1 class="text-3xl font-bold text-slate-900 mb-8">Shopping Cart</h1>
 
@@ -32,13 +32,14 @@
                         <p class="text-sm text-slate-500 mb-2">By {{ item.book_id.author }}</p>
 
                         <div class="flex items-center gap-4">
-                            <span class="text-xl font-bold text-purple-700">₹{{ item.book_id.price }}</span>
+                            <span class="text-xl font-bold text-purple-700">₹{{ item.book_id.discount_price }}</span>
                             <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden">
                                 <a href="{% url 'minus_from_cart' item.book_id.slug %}"
                                     class="px-3 py-1 bg-slate-50 hover:bg-slate-100 text-slate-600 border-r border-slate-200">-</a>
                                 <span class="px-4 py-1 text-sm font-semibold text-slate-800">{{ item.quantity }}</span>
                                 <a href="{% url 'add_to_cart' item.book_id.slug %}"
                                     class="px-3 py-1 bg-slate-50 hover:bg-slate-100 text-slate-600 border-l border-slate-200">+</button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -104,10 +105,12 @@
                         </div>
                     </div>
 
-                    <button
-                        class="w-full bg-purple-700 text-white font-bold py-4 rounded-lg mt-8 hover:bg-purple-800 transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
-                        Proceed to Checkout
-                    </button>
+                    <div class="mt-6">
+                        <a href="{% url 'checkout' %}"
+                            class="block w-full text-center bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 rounded-md transition">
+                            Proceed to Checkout
+                        </a>
+                    </div>
 
                     {% if order.coupon_id %}
                     <div class="mt-5 p-3 bg-green-50 border border-green-200 rounded">
